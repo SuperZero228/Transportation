@@ -1,0 +1,3 @@
+﻿  TransportApp.cpp
+c:\users\ангелина\desktop\нечеткая логика\transportapp\transportapp\transportapp.cpp(155): warning C4244: аргумент: преобразование "double" в "const unsigned int", возможна потеря данных
+  TransportApp.vcxproj -> C:\Users\Ангелина\Desktop\Нечеткая логика\TransportApp\Debug\TransportApp.exe
