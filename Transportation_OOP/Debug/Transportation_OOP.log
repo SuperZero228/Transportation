@@ -1,0 +1,138 @@
+﻿  Transportation.cpp
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(135): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(137): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(184): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(187): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(193): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(24): warning C4101: input: неиспользованная локальная переменная
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(220): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(224): warning C4244: =: преобразование "_Ty" в "_Ty1", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+          and
+          [
+              _Ty1=int
+          ]
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(231): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(235): warning C4244: =: преобразование "_Ty" в "_Ty1", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+          and
+          [
+              _Ty1=int
+          ]
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(253): warning C4244: инициализация: преобразование "_Ty" в "int", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(255): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(259): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(265): warning C4244: =: преобразование "_Ty" в "int", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(274): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(278): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(282): warning C4244: =: преобразование "_Ty" в "int", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(295): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(340): warning C4244: +=: преобразование "_Ty" в "int", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(356): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(363): warning C4244: =: преобразование "_Ty" в "int", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(365): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(367): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(369): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(378): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(390): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(392): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(394): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(354): warning C4101: max: неиспользованная локальная переменная
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(354): warning C4101: min: неиспользованная локальная переменная
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(422): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(424): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(425): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(429): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(431): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(457): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(464): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(491): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(493): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(527): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(529): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(530): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(533): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(535): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(560): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(567): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(594): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(596): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(630): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(632): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(633): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(636): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(638): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(662): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(664): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(698): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(700): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(702): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(732): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(760): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(778): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(789): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(800): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(802): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(823): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(832): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(834): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(838): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(857): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(859): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(863): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(866): warning C4244: =: преобразование "double" в "_Ty1", возможна потеря данных
+          with
+          [
+              _Ty1=int
+          ]
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(872): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(875): warning C4244: =: преобразование "double" в "_Ty1", возможна потеря данных
+          with
+          [
+              _Ty1=int
+          ]
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(882): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(893): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(895): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(897): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(744): warning C4101: looped: неиспользованная локальная переменная
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(925): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(940): warning C4018: <: несоответствие типов со знаком и без знака
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\utility(239): warning C4244: инициализация: преобразование "_Ty" в "_Ty1", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+          and
+          [
+              _Ty1=int
+          ]
+  c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(446): note: выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<int,std::pair<int,int>>::pair<double,std::pair<int,int>,0>(std::pair<double,std::pair<int,int>> &&) noexcept"
+  c:\users\catherine\source\repos\transportation_oop\transportation_oop\transportation.cpp(446): note: выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<int,std::pair<int,int>>::pair<double,std::pair<int,int>,0>(std::pair<double,std::pair<int,int>> &&) noexcept"
+  Transportation_OOP.vcxproj -> C:\Users\Catherine\source\repos\Transportation_OOP\Debug\Transportation_OOP.exe
