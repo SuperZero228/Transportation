@@ -1,0 +1,4 @@
+C:\Users\a1272\OneDrive\Рабочий стол\проект\transportTask\x64\Debug\transportTask.vcxprojAssemblyReference.cache
+C:\Users\a1272\OneDrive\Рабочий стол\проект\transportTask\x64\Debug\transportTask.MyForm.resources
+C:\Users\a1272\OneDrive\Рабочий стол\проект\transportTask\x64\Debug\transportTask.vcxproj.GenerateResource.cache
+C:\Users\a1272\OneDrive\Рабочий стол\проект\transportTask\x64\Debug\transportTask.exe
