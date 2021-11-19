@@ -1,4 +1,0 @@
-﻿  MyForm.cpp
-C:\Users\a1272\OneDrive\Рабочий стол\проект\transportTask\MyForm.h(250,10): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
-  MyForm.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
-  transportTask.vcxproj -> C:\Users\a1272\OneDrive\Рабочий стол\проект\transportTask\x64\Debug\transportTask.exe
