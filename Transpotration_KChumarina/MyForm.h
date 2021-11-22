@@ -3,10 +3,12 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <libxl.h>
+#include <numeric>
+#include <algorithm>
+//#include <windowsx.h>
 
 using namespace std;
-using namespace libxl;
+
 
 namespace transportTask {
 
@@ -48,6 +50,7 @@ namespace transportTask {
 	private: System::Windows::Forms::DataVisualization::Charting::Chart^ chart1;
 	private: System::Windows::Forms::RichTextBox^ richTextBox1;
 	private: System::Windows::Forms::Button^ button3;
+	private: System::Windows::Forms::Button^ button4;
 
 
 
@@ -64,25 +67,26 @@ namespace transportTask {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			System::Windows::Forms::DataVisualization::Charting::Legend^ legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea2 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::Legend^ legend2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series3 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series4 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->chart1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
 			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->button4 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chart1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(12, 33);
+			this->button1->Location = System::Drawing::Point(12, 12);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(170, 40);
+			this->button1->Size = System::Drawing::Size(170, 80);
 			this->button1->TabIndex = 0;
-			this->button1->Text = L"Результат";
+			this->button1->Text = L"Показать результат на экране";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
@@ -98,22 +102,22 @@ namespace transportTask {
 			// 
 			// chart1
 			// 
-			chartArea1->Name = L"ChartArea1";
-			this->chart1->ChartAreas->Add(chartArea1);
-			legend1->Name = L"Legend1";
-			this->chart1->Legends->Add(legend1);
+			chartArea2->Name = L"ChartArea1";
+			this->chart1->ChartAreas->Add(chartArea2);
+			legend2->Name = L"Legend1";
+			this->chart1->Legends->Add(legend2);
 			this->chart1->Location = System::Drawing::Point(418, 104);
 			this->chart1->Name = L"chart1";
-			series1->ChartArea = L"ChartArea1";
-			series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series1->Legend = L"Legend1";
-			series1->Name = L"График функции надежности потребностей";
-			series2->ChartArea = L"ChartArea1";
-			series2->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series2->Legend = L"Legend1";
-			series2->Name = L"График степени уверенности в том, что план эффективен по затратам";
-			this->chart1->Series->Add(series1);
-			this->chart1->Series->Add(series2);
+			series3->ChartArea = L"ChartArea1";
+			series3->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series3->Legend = L"Legend1";
+			series3->Name = L"График функции надежности потребностей";
+			series4->ChartArea = L"ChartArea1";
+			series4->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series4->Legend = L"Legend1";
+			series4->Name = L"График степени уверенности в том, что план эффективен по затратам";
+			this->chart1->Series->Add(series3);
+			this->chart1->Series->Add(series4);
 			this->chart1->Size = System::Drawing::Size(648, 502);
 			this->chart1->TabIndex = 2;
 			this->chart1->Text = L"chart1";
@@ -131,19 +135,30 @@ namespace transportTask {
 			// 
 			// button3
 			// 
-			this->button3->Location = System::Drawing::Point(205, 33);
+			this->button3->Location = System::Drawing::Point(228, 12);
 			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(207, 40);
+			this->button3->Size = System::Drawing::Size(170, 80);
 			this->button3->TabIndex = 4;
-			this->button3->Text = L"Ввести данные в файл";
+			this->button3->Text = L"Ввести результат в файл";
 			this->button3->UseVisualStyleBackColor = true;
 			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
+			// 
+			// button4
+			// 
+			this->button4->Location = System::Drawing::Point(71, 631);
+			this->button4->Name = L"button4";
+			this->button4->Size = System::Drawing::Size(282, 51);
+			this->button4->TabIndex = 5;
+			this->button4->Text = L"Назад";
+			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button4_Click);
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1078, 726);
+			this->Controls->Add(this->button4);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->richTextBox1);
 			this->Controls->Add(this->chart1);
@@ -166,9 +181,10 @@ namespace transportTask {
 	}
 
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) { //кнопка построить график
+		button2->Enabled = false;	//запрет на повторное нажатие клавиш
 		int const size = 6;
-		double reliability_req[size] = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };
-		double reliability_f[size] = { 1, 0.78, 0.57, 0.34, 0.11, 0 };
+		vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };
+		vector<double> reliability_f = { 1, 0.78, 0.57, 0.34, 0.11, 0 };
 		double a = 0, b = 100, h = 10, X1, Y1, X2, Y2;
 
 		//подписать оси
@@ -198,28 +214,28 @@ namespace transportTask {
 			X2 += h;
 		}
 	
-
 		//расчеты точки пересечения на графике
 		//метод наименьших квадратов
-		double X_array[size] = { 50, 60, 70, 80, 90, 100 };
-		double xy[size];	//умножение x*y
-		double xx[size];	//возведение x^2
+
+		vector<double> X_array = { 50, 60, 70, 80, 90, 100 };
+		vector<double> xy;	//умножение x*y
+		vector<double> xx;	//возведение x^2
 		int n = size;		//кол-во точек
 
 		double sum_x = 0, sum_y = 0, sum_xy = 0, sum_xx = 0;
 
 		for (int i = 0; i < size; i++)
 		{
-			xy[i] = X_array[i] * reliability_f[i];
-			xx[i] = pow(X_array[i], 2);
+			xy.push_back( X_array[i] * reliability_f[i]);
+			xx.push_back(pow(X_array[i], 2));
 		}
 
 		for (int i = 0; i < size; i++)
 		{
 			sum_x += X_array[i];
 			sum_y += reliability_f[i];
-			sum_xy += xy[i];
-			sum_xx += xx[i];
+			sum_xy = accumulate(xy.begin(), xy.end(), 0.0);
+			sum_xx = accumulate(xx.begin(), xx.end(), 0.0);
 		}
 
 		double k = 0, b1 = 0;
@@ -229,7 +245,6 @@ namespace transportTask {
 		//richTextBox1->Text = richTextBox1->Text + "значение k=" + round(k * 100.0) / 100.0 + "\n";
 		//richTextBox1->Text = richTextBox1->Text + "значение b=" + round(b1 * 100.0) / 100.0 + "\n";
 		richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности функции цели: y=" + round(k * 100.0) / 100.0 + "x+" + round(b1 * 100.0) / 100.0 + "\n";
-	
 	
 		//расчет второго уравнения с координатами точек (0,50)(1,100)
 		double x1 = 50, x2 = 100, y1 = 0, y2 = 1, k2, b2;
@@ -258,11 +273,13 @@ namespace transportTask {
 	}
 
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) { //кнопка результат
-		int const size = 6;																//размер массива
-		double min_costs[size] = { 77080, 93208, 109576, 126456, 143576, 152300 };      //минимальные затраты             
-		double reliability_f[size];													    //надежность функции цели
-		double reliability_req[size] = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };                  //надежность потребностей 
-		double min[size] ;															    //последняя матрица
+		button1->Enabled = false;
+		int const N = 6;																//кол-во шагов(размер массива)
+		int const size = 6;
+		vector<double> min_costs = { 77080.0, 93208.0, 109576.0, 126456.0, 143576.0, 152300.0 };      //минимальные затраты             
+		vector<double> reliability_f;													    //надежность функции цели
+		vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };                  //надежность потребностей 
+		vector<double> min ;															    //последняя матрица
 		
 		double C_max = min_costs[0];
 		double C_min = min_costs[0];
@@ -272,52 +289,53 @@ namespace transportTask {
 			if (C_max < min_costs[i]) C_max = min_costs[i];
 			if (C_min > min_costs[i]) C_min = min_costs[i];
 		}
-		
-		//richTextBox1->Text = richTextBox1->Text + "max= " + C_max + "\n";
-		//richTextBox1->Text = richTextBox1->Text + "min= " + C_min + "\n";
 
 		//--------надежность целевой функции-------------
+
 		for (int i = 0; i < size; i++)
 		{
-			reliability_f[i] = (C_max - min_costs[i]) / (C_max - C_min);
+			reliability_f.push_back((C_max - min_costs[i]) / (C_max - C_min));
 		}
 
 		richTextBox1->Text = richTextBox1->Text + "Надежность функции цели: \n";
 		for (int i = 0; i < size; i++)
 		{
-			richTextBox1->Text = richTextBox1->Text + "Шаг:" + i + " Результат:" + round(reliability_f[i]*100.0)/100.0 + "\n";
+			richTextBox1->Text = richTextBox1->Text + "Шаг:" + i + " Результат:" + round(reliability_f[i] * 100.0) / 100.0 + "\n";
 		}
 
 		for (int i = 0; i < size; i++)
 		{
 			if (reliability_req[i] < reliability_f[i])
-				min[i] = reliability_req[i];
+				min.push_back(reliability_req[i]);
 			else
-				min[i] = reliability_f[i];
+				min.push_back(reliability_f[i]);
 		}
 		//richTextBox1.Text = richTextBox1.Text + "минимальное: " + System.Environment.NewLine;
 		/*for (int i = 0; i < min_costs.Length; i++)
 		{
 			richTextBox1.Text = richTextBox1.Text + "шаг:" + i + " min:" + Math.Round(min[i], 2) + System.Environment.NewLine;
 		}*/
-		double max = min[0];
-		for (int i = 1; i < size; i++)
+		auto max = max_element(min.begin(), min.end());
+		
+		/*for (int i = 1; i < size; i++)
 		{
 			if (min[i] > max)
 				max = min[i];
-		}
+		}*/
 
-		//richTextBox1->Text = richTextBox1->Text + "Максимальное число между надежностью потребностей и надежностью функции цели:" + max + "\n";
-	
-
-
-
+		
+		
 	}
 
 private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
-	
+	button3->Enabled = false;
+
 }
 
 
+private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();	//свернуть форму
+	//f2->Show();	//???открыть новую форму???
+}
 };
 }
