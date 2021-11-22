@@ -1,81 +1,15 @@
+#include "Transportation.h"
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
 
-void minElement(std::vector<double>, std::vector<double>, std::vector<std::vector<double>>, std::pair <bool, bool>, std::vector<std::pair<int, std::pair<int, int>>> &, bool);
-bool potentialMethod(std::vector<std::vector<double>>, std::vector<std::pair<int, std::pair<int, int>>>&, std::vector<std::pair<int, int>>&, std::vector<int>&, bool, bool&);
-void loopBuild(std::vector<std::vector<double>>, std::vector<std::pair<int, std::pair<int, int>>>&, std::vector<std::pair<int, int>>, std::vector<int>, bool);
-bool pathHorizontal(std::pair<int, int>, std::vector<std::pair<int, int>>&, std::vector<std::vector<int>>, int);
-bool pathVertical(std::pair<int, int>, std::vector<std::pair<int, int>>&, std::vector<std::vector<int>>, int);
-bool notInBasis(int i, int j, std::vector<std::pair<int, std::pair<int, int>>>);
-
-int main()
+template <typename T>
+Transportation<T>::Transportation(std::vector<T> A, std::vector<T> B, std::vector<std::vector<T>> C, bool full_out) :
+	A(A), B(B), C(C), amountA(A.size()), amountB(B.size()), L(0), full(full_out), addedC(std::make_pair(false, false)), optPlan(false)
 {
-	setlocale(LC_ALL, "Russian");
-	std::vector<double> A, B;										//обьемы произв-ва и потреб-я в пунктах
-	double sumA = 0;												//суммарные объемы произ-ва и потреб-я
-	double sumB = 0;
-	double L = 0;													//значение целевой функции
-	int p, q;														//количество ограничений на распределение объемов произ-ва/потреб-я
-	int amountA, amountB, scan;										//scan для ввода
-	bool optPlan = false;											//для проверки на оптимальность
-	std::pair <bool, bool> addedC = std::make_pair(false, false);	//для определения, какие пункты добавились в С
-
-	bool input, full;												//input - для проверки корректности ограничений переменных; full - вывод полного решения
-
-	std::cout << "Введите количество пунктов производства (A): ";
-	std::cin >> amountA;
-	std::cout << "Введите количество пунктов потребления (В): ";
-	std::cin >> amountB;
-
-	std::cout << "Введите объемы производства для каждого А: ";
-	for (int i = 0; i < amountA; i++)
-	{
-		std::cin >> scan;
-		A.push_back(scan);
-	}
-
-	std::cout << "Введите объемы потребления для каждого B: ";
-	for (int i = 0; i < amountB; i++)
-	{
-		std::cin >> scan;
-		B.push_back(scan);
-	}
-
-	std::vector<std::vector<double>> C(amountA, std::vector <double>(amountB));		//матрица транспортных издержек
-	std::cout << std::endl << "Введите матрицу транспортных издержек (С): " << std::endl;
-	for (int i = 0; i < amountA; i++)
-	{
-		for (int j = 0; j < amountB; j++)
-		{
-			std::cin >> C[i][j];
-		}
-	}
-
-	std::cout << std::endl << "Для скольких пунктов ограничить объем производства? (не больше " << amountA << ") ";
-	std::cin >> scan;
-	p = scan;
-	if (p != 0) std::cout << "Введите верхние границы требуемых объемов производства: ";
-	for (int i = 0; i < p; i++)
-	{
-		std::cin >> scan;
-		A[i] = scan;
-	}
-
-	std::cout << std::endl << "Для скольких пунктов ограничить объем потребления? (не больше " << amountB << ") ";
-	std::cin >> scan;
-	q = scan;
-	if (q != 0) std::cout << "Введите нижние границы требуемых объемов потребления: ";
-	for (int i = 0; i < q; i++)
-	{
-		std::cin >> scan;
-		B[i] = B[i] - scan;
-	}
-
-
-	std::cout << "Вывести полное решение? (да=1, нет=0): ";
-	std::cin >> scan;
-	full = bool(scan);
+	sumA = 0;
+	sumB = 0;
 
 	for (int i = 0; i < amountA; i++)
 	{
@@ -87,6 +21,18 @@ int main()
 		sumB += B.at(i);
 	}
 
+	solve();
+}
+
+template <typename T>
+T Transportation<T>::getL()
+{
+	return L;
+}
+
+template <typename T>
+void Transportation<T>::solve()
+{
 	if (sumA != sumB)
 	{
 		if (full) std::cout << std::endl << "Задача открытая, так как условие баланса нарушено" << std::endl;
@@ -106,7 +52,7 @@ int main()
 			if (full) std::cout << "Cуммарный объем производства sumA = " << sumA << ", а суммарный объем потребления sumB = " << sumB << std::endl;
 			if (full) std::cout << "Чтобы получить закрытую модель, добавляем фиктивный пункт производства A(i+1) с объемом производства = " << (sumB - sumA) << std::endl;
 			A.push_back(sumB - sumA);
-			std::vector<double> c_newB(amountB, 0);
+			std::vector<T> c_newB(amountB, 0);
 			C.push_back(c_newB);
 			addedC.first = true;
 		}
@@ -120,13 +66,13 @@ int main()
 	{
 		std::cout << std::endl << "Текущая таблица:" << std::endl;
 		std::cout << "A: ";
-		for (unsigned int i = 0; i < A.size(); i++)
+		for (int i = 0; i < A.size(); i++)
 		{
 			std::cout << A.at(i) << "  ";
 		}
 
 		std::cout << std::endl << "B: ";
-		for (unsigned int i = 0; i < B.size(); i++)
+		for (int i = 0; i < B.size(); i++)
 		{
 			std::cout << B.at(i) << "  ";
 		}
@@ -143,36 +89,29 @@ int main()
 		std::cout << std::endl;
 	};
 
-	std::vector<std::pair<int, std::pair<int, int>>> basisPerem_e;	//вектор базис-х перем-х, 1- знач-ние перем-й, 2- позиция в массиве С
-	std::vector<std::pair<int, int>> basisZero;
-	minElement(A, B, C, addedC, basisPerem_e, full);				//начальный опорный план
+	minElement();												//начальный опорный план
 	if (full)
 	{
-		for (unsigned int i = 0; i < basisPerem_e.size(); i++)
+		for (int i = 0; i < basisPerem_e.size(); i++)
 		{
 			L += basisPerem_e[i].first * C[basisPerem_e[i].second.first][basisPerem_e[i].second.second];
 		}
 		std::cout << std::endl << "Значение целевой функции для этого опорного плана: L = " << L << std::endl;
 	};
 
-	std::vector<std::pair<int, int>> badC;							//вектор координат неоптимальных клеток
-	std::vector<int> badC_Value;
-	bool degenerate = false;
-	optPlan = potentialMethod(C, basisPerem_e, badC, badC_Value, full, degenerate);
+	optPlan = potentialMethod();
 
 	while (!optPlan)
 	{
-		//if (degenerate == true) correctPlan();
-		loopBuild(C, basisPerem_e, badC, badC_Value, full);
+		loopBuild();
 		badC.clear();
 		badC_Value.clear();
-		degenerate = false;
-		optPlan = potentialMethod(C, basisPerem_e, badC, badC_Value, full, degenerate);
+		optPlan = potentialMethod();
 	}
 
 	L = 0;
 	if (full) std::cout << std::endl << std::endl << "Полученный опорный план является оптимальным, так как для всех клеток выполняется условие `ai + `bj = cij" << std::endl;
-	for (unsigned int i = 0; i < basisPerem_e.size(); i++)
+	for (int i = 0; i < basisPerem_e.size(); i++)
 	{
 		L += basisPerem_e[i].first * C[basisPerem_e[i].second.first][basisPerem_e[i].second.second];
 	}
@@ -195,13 +134,10 @@ int main()
 			if (C[basisPerem_e[j].second.first][basisPerem_e[j].second.second] == 0) std::cout << "На " << basisPerem_e[j].second.first + 1 << "-ом складе остался невостребованным продукт в количестве " << basisPerem_e[j].first << " единиц." << std::endl;
 		}
 	}
-
-	system("pause");
-	return 0;
 }
 
-//нахождение оптимального плана методом потенциалов
-bool potentialMethod(std::vector<std::vector<double>> C, std::vector<std::pair<int, std::pair<int, int>>> &basisPerem_e, std::vector<std::pair<int, int>> &badC, std::vector<int> &badC_Value, bool full, bool &degenerate)
+template <typename T>
+bool Transportation<T>::potentialMethod()
 {
 	int sizeA = C.size();
 	int sizeB = C[0].size();
@@ -238,29 +174,29 @@ bool potentialMethod(std::vector<std::vector<double>> C, std::vector<std::pair<i
 				count--;
 			}
 		}
-		
+
 		//для проверки на вырожденность решения
 		max_iter--;
-		if (max_iter == 0) 
+		if (max_iter == 0)
 		{
-			if (full) 
+			if (full)
 			{
 				std::cout << "На данном этапе возникла ситуация, когда для оставшихся занятых клеток не известно ни одного из потенциалов.";
 				std::cout << "Это результат вырожденности решения. Для его преодоления в одну из клеток нужно внести нулевую поставку, таким образом, такая клетка станет условно занятой.";
 			}
-			
+
 			//выбираем из тех строк/столбцов, у которых есть потенциалы, клетку с наименьшей стоимостью в матрице С
 			int min_cost = C[0][0];
 			int temp_i, temp_j;
-			for (int i = 0; i < alpha.size(); i++) 
+			for (int i = 0; i < alpha.size(); i++)
 			{
-				if (alpha[i].second == true) 
+				if (alpha[i].second == true)
 				{
-					for (int j = 0; j < C[0].size(); j++) 
+					for (int j = 0; j < C[0].size(); j++)
 					{
-						if (beta[j].second == false) 
+						if (beta[j].second == false)
 						{
-							if (min_cost > C[i][j]) 
+							if (min_cost > C[i][j])
 							{
 								min_cost = C[i][j];
 								temp_i = i;
@@ -287,14 +223,14 @@ bool potentialMethod(std::vector<std::vector<double>> C, std::vector<std::pair<i
 				}
 			}
 
-			if (full) 
+			if (full)
 			{
 				std::cout << std::endl << "Среди клеток, в которых может быть размещена нулевая поставка, наименьший тариф имеет клетка " << min_cost << " (" << temp_i + 1 << ", " << temp_j + 1 << "). В ней размещаем нулевую поставку и она становится условно занятой.";
 			}
-			
-			for (int i = 0; i < basisPerem_e.size(); i++) 
+
+			for (int i = 0; i < basisPerem_e.size(); i++)
 			{
-				if (basisPerem_e[i].first == 0) 
+				if (basisPerem_e[i].first == 0)
 				{
 					if (full) std::cout << std::endl << "Ранее поставленный псевдоноль в ячейке (" << basisPerem_e[i].second.first + 1 << ", " << basisPerem_e[i].second.second + 1 << ") убираем." << std::endl;
 					basisPerem_e.erase(basisPerem_e.begin() + i);
@@ -327,7 +263,7 @@ bool potentialMethod(std::vector<std::vector<double>> C, std::vector<std::pair<i
 			}
 		}
 
-	int L = 0;
+	L = 0;
 	for (unsigned int i = 0; i < basisPerem_e.size(); i++)
 	{
 		L += basisPerem_e[i].first * C[basisPerem_e[i].second.first][basisPerem_e[i].second.second];
@@ -339,71 +275,13 @@ bool potentialMethod(std::vector<std::vector<double>> C, std::vector<std::pair<i
 	return flag;
 }
 
-//корректирование опорного плана из-за вырожденности
-void correctPlan(std::vector<std::vector<double>> C, std::vector<std::pair<int, std::pair<int, int>>> &basisPerem_e)
-{
-	std::vector<std::pair<int, int>> possibleChange;
-	std::pair<int, int> change;		//координаты заменяемой клетки
-	int changeValue, max, min;		//что лежит в С у клетки, которую заменяем
-
-	for (int i = 0; i < basisPerem_e.size(); i++) //если в плане нет базисных с нулем, то не сработает
-	{
-		if (basisPerem_e[i].first == 0)
-		{
-			change = std::make_pair(basisPerem_e[i].second.first, basisPerem_e[i].second.second);
-		}
-	}
-	changeValue = C[change.first][change.second];
-
-	for (int i = 0; i < C.size(); i++)
-	{
-		for (int j = 0; j < C[0].size(); j++)
-		{
-			for (int b = 0; b < basisPerem_e.size(); b++)
-				if (C[i][j] == changeValue && !(basisPerem_e[b].second.first == i && basisPerem_e[b].second.second == j)) possibleChange.push_back(std::make_pair(i, j));
-		}
-	}
-
-	switch (possibleChange.size())
-	{
-	case 1:
-	{
-		for (int b = 0; b < basisPerem_e.size(); b++)
-		{
-			if (basisPerem_e[b].second.first == possibleChange[0].first && basisPerem_e[b].second.second == possibleChange[0].second)
-			{
-				basisPerem_e.erase(basisPerem_e.begin() + b);
-				basisPerem_e.push_back(std::make_pair(0, possibleChange[0]));		//тоже мб не ноль в базисе!
-			}
-		}
-		break;
-	}
-	case 0:
-	{
-		for (int i = 0; i < C.size(); i++)
-		{
-			for (int j = 0; j < C[0].size(); j++)
-			{
-				for (int b = 0; b < basisPerem_e.size(); b++)
-					if (C[i][j] == changeValue && !(basisPerem_e[b].second.first == i && basisPerem_e[b].second.second == j)) possibleChange.push_back(std::make_pair(i, j));
-			}
-		}
-		break;
-	}
-	default:
-
-		break;
-	}
-
-}
-
-//нахождение начального опорного плана методом минимального элемента
-void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::vector<double>> C, std::pair <bool, bool> addedC, std::vector<std::pair<int, std::pair<int, int>>> &basisPerem_e, bool full)
+template <typename T>
+void Transportation<T>::minElement()
 {
 	if (full) std::cout << "Поиск начального опорного плана с помощью метода минимального элемента." << std::endl;
 	if (full) std::cout << "Суть метода в том, что из таблицы стоимостей С выбирается наименьшая, и в клетку, соответствующую ей, помещается меньшее из ai и bj" << std::endl;
 
-	double minCost, maxCost, cost;					//cost - псевдостоимость текущей клетки C~
+	T minCost, maxCost, cost;						//cost - псевдостоимость текущей клетки C~
 	std::pair<int, int> minPosition;
 	bool flagA = true;
 	bool flagB = true;								//флаги, что исчерпаны ресурсы до нуля
@@ -423,7 +301,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 				{
 					for (int j = 0; j < B.size(); j++)
 					{
-						if (notInBasis(i, j, basisPerem_e))
+						if (notInBasis(i, j))
 						{
 							if (C[i][j] < minCost)
 							{
@@ -435,12 +313,10 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 						}
 					}
 				}
-				cost = 0;//std::min(A[minPosition.first], B[minPosition.second]);		//можно мин заменить на:  !(b<a)?a:b
+				cost = 0;
 				basisPerem_e.push_back(std::make_pair(cost, minPosition));
 
 				if (full) std::cout << "Искомый элемент: С(" << minPosition.first + 1 << ", " << minPosition.second + 1 << "), его запасы =" << A[minPosition.first] << ", потребности =" << B[minPosition.second] << std::endl;
-				//A[minPosition.first] = A[minPosition.first] - cost;
-				//B[minPosition.second] = B[minPosition.second] - cost;
 				minCost = maxCost;
 				if (full) std::cout << "Поскольку минимальным является " << cost << ", то вычитаем его" << std::endl << std::endl;
 				continue;
@@ -458,7 +334,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 				{
 					if (A.back() != 0 && B[j] != 0)
 					{
-						if (notInBasis(A.size() - 1, j, basisPerem_e))
+						if (notInBasis(A.size() - 1, j))
 						{
 							if (C[A.size() - 1][j] < minCost)
 							{
@@ -471,7 +347,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 					}
 				}
 
-				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно мин заменить на:  !(b<a)?a:b
+				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно min заменить на:  !(b<a)?a:b
 				basisPerem_e.push_back(std::make_pair(cost, minPosition));
 				if (full) std::cout << "Искомый элемент: С(" << minPosition.first + 1 << ", " << minPosition.second + 1 << "), его запасы =" << A[minPosition.first] << ", потребности =" << B[minPosition.second] << std::endl;
 				A[minPosition.first] = A[minPosition.first] - cost;
@@ -485,7 +361,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 				{
 					for (int j = 0; j < B.size(); j++)
 					{
-						if (notInBasis(i, j, basisPerem_e))
+						if (notInBasis(i, j))
 						{
 							if (A[i] != 0 && B[j] != 0)
 							{
@@ -500,7 +376,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 						}
 					}
 				}
-				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно мин заменить на:  !(b<a)?a:b
+				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно min заменить на:  !(b<a)?a:b
 				basisPerem_e.push_back(std::make_pair(cost, minPosition));
 				if (full) std::cout << "Искомый элемент: С(" << minPosition.first + 1 << ", " << minPosition.second + 1 << "), его запасы =" << A[minPosition.first] << ", потребности =" << B[minPosition.second] << std::endl;
 				A[minPosition.first] = A[minPosition.first] - cost;
@@ -527,7 +403,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 				{
 					for (int j = 0; j < B.size() - 1; j++)
 					{
-						if (notInBasis(i, j, basisPerem_e))
+						if (notInBasis(i, j))
 						{
 							if (C[i][j] < minCost)
 							{
@@ -539,7 +415,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 						}
 					}
 				}
-				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно мин заменить на:  !(b<a)?a:b
+				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно min заменить на:  !(b<a)?a:b
 				basisPerem_e.push_back(std::make_pair(cost, minPosition));
 				if (full) std::cout << "Искомый элемент: С(" << minPosition.first + 1 << ", " << minPosition.second + 1 << "), его запасы =" << A[minPosition.first] << ", потребности =" << B[minPosition.second] << std::endl;
 				A[minPosition.first] = A[minPosition.first] - cost;
@@ -561,7 +437,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 				{
 					if (A[i] != 0 && B[B.size() - 1] != 0)
 					{
-						if (notInBasis(i, B.size() - 1, basisPerem_e))
+						if (notInBasis(i, B.size() - 1))
 						{
 							if (C[i][B.size() - 1] < minCost)
 							{
@@ -574,7 +450,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 					}
 				}
 
-				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно мин заменить на:  !(b<a)?a:b
+				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно min заменить на:  !(b<a)?a:b
 				basisPerem_e.push_back(std::make_pair(cost, minPosition));
 				if (full) std::cout << "Искомый элемент: С(" << minPosition.first + 1 << ", " << minPosition.second + 1 << "), его запасы =" << A[minPosition.first] << ", потребности =" << B[minPosition.second] << std::endl;
 				A[minPosition.first] = A[minPosition.first] - cost;
@@ -590,7 +466,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 					{
 						if (A[i] != 0 && B[j] != 0)
 						{
-							if (notInBasis(i, j, basisPerem_e))
+							if (notInBasis(i, j))
 							{
 								if (C[i][j] < minCost)
 								{
@@ -603,7 +479,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 						}
 					}
 				}
-				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно мин заменить на:  !(b<a)?a:b
+				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно min заменить на:  !(b<a)?a:b
 				basisPerem_e.push_back(std::make_pair(cost, minPosition));
 				if (full) std::cout << "Искомый элемент: С(" << minPosition.first + 1 << ", " << minPosition.second + 1 << "), его запасы =" << A[minPosition.first] << ", потребности =" << B[minPosition.second] << std::endl;
 				A[minPosition.first] = A[minPosition.first] - cost;
@@ -630,7 +506,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 				{
 					for (int j = 0; j < B.size(); j++)
 					{
-						if (notInBasis(i, j, basisPerem_e))
+						if (notInBasis(i, j))
 						{
 							if (C[i][j] < minCost)
 							{
@@ -642,7 +518,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 						}
 					}
 				}
-				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно мин заменить на:  !(b<a)?a:b
+				cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно min заменить на:  !(b<a)?a:b
 				basisPerem_e.push_back(std::make_pair(cost, minPosition));
 				if (full) std::cout << "Искомый элемент: С(" << minPosition.first + 1 << ", " << minPosition.second + 1 << "), его запасы =" << A[minPosition.first] << ", потребности =" << B[minPosition.second] << std::endl;
 				A[minPosition.first] = A[minPosition.first] - cost;
@@ -658,7 +534,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 				{
 					if (A[i] != 0 && B[j] != 0)
 					{
-						if (notInBasis(i, j, basisPerem_e))
+						if (notInBasis(i, j))
 						{
 							if (C[i][j] < minCost)
 							{
@@ -671,7 +547,7 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 					}
 				}
 			}
-			cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно мин заменить на:  !(b<a)?a:b
+			cost = std::min(A[minPosition.first], B[minPosition.second]);		//можно min заменить на:  !(b<a)?a:b
 			basisPerem_e.push_back(std::make_pair(cost, minPosition));
 			if (full) std::cout << "Искомый элемент: С(" << minPosition.first + 1 << ", " << minPosition.second + 1 << "), его запасы =" << A[minPosition.first] << ", потребности =" << B[minPosition.second] << std::endl;
 			A[minPosition.first] = A[minPosition.first] - cost;
@@ -715,12 +591,13 @@ void minElement(std::vector<double> A, std::vector<double> B, std::vector<std::v
 		else
 		{
 			std::cout << "Следовательно, опорный план является вырожденным" << std::endl;
-			//функция для вырожденного плана (ищем мин из невыбранных в матрице и ставим туда ноль)
+			//такого произойти не должно
 		}
-	};
+	}
 }
 
-bool notInBasis(int i, int j, std::vector<std::pair<int, std::pair<int, int>>> basisPerem_e)
+template <typename T>
+bool Transportation<T>::notInBasis(int i, int j)
 {
 	for (int b = 0; b < basisPerem_e.size(); b++)
 	{
@@ -729,19 +606,18 @@ bool notInBasis(int i, int j, std::vector<std::pair<int, std::pair<int, int>>> b
 	return true;
 }
 
-//построение цикла
-void loopBuild(std::vector<std::vector<double>> C, std::vector<std::pair<int, std::pair<int, int>>> &basisPerem_e, std::vector<std::pair<int, int>> badC, std::vector<int> badC_Value, bool full)
+template <typename T>
+void Transportation<T>::loopBuild() 
 {
-	double tmpMaxMin;
+	T tmpMaxMin;
 	std::pair<int, int> positionLoopBegin, positionFreeCell;
 	bool oddSign, looped;																//знак нечетности для чередования + и - в цикле: true=минус, false=плюс
-	std::vector<std::vector<int>> loopMap(C.size(), std::vector <int>(C[0].size()));	//проверить конструктор вектора на инициализацию массива нулями
-																						//в loopMap эл-ты: все нули, минус =-1, плюс =1
+	std::vector<std::vector<int>> loopMap(C.size(), std::vector <int>(C[0].size()));	//в loopMap эл-ты: все нули, минус =-1, плюс =1
 
 	tmpMaxMin = C[badC[0].first][badC[0].second];
 	positionLoopBegin = std::make_pair(badC[0].first, badC[0].second);
 
-	if (badC.capacity() == 1)			//проверить функции размерности и реальное кол-во эл-тов в векторе
+	if (badC.capacity() == 1)
 	{
 		if (full) std::cout << "Данная клетка: " << tmpMaxMin << " (" << positionLoopBegin.first + 1 << ", " << positionLoopBegin.second + 1 << "). Строим цикл, начиная с нее" << std::endl;
 	}
@@ -806,7 +682,6 @@ void loopBuild(std::vector<std::vector<double>> C, std::vector<std::pair<int, st
 					std::cout << " .  ";
 					break;
 				}
-				//std::cout << loopMap[i][j] << "  ";
 			}
 			std::cout << std::endl;
 		}
@@ -830,7 +705,7 @@ void loopBuild(std::vector<std::vector<double>> C, std::vector<std::pair<int, st
 			{
 				for (int b = 0; b < basisPerem_e.size(); b++)
 				{
-					if (basisPerem_e[b].second.first == i && basisPerem_e[b].second.second == j && basisPerem_e[b].first < tmpMaxMin) //if (basisPerem_e[b].second.first != positionLoopBegin.first && basisPerem_e[b].second.second != positionLoopBegin.second)
+					if (basisPerem_e[b].second.first == i && basisPerem_e[b].second.second == j && basisPerem_e[b].first < tmpMaxMin)
 					{
 						tmpMaxMin = basisPerem_e[b].first;
 						positionFreeCell = std::make_pair(basisPerem_e[b].second.first, basisPerem_e[b].second.second);
@@ -905,10 +780,11 @@ void loopBuild(std::vector<std::vector<double>> C, std::vector<std::pair<int, st
 			}
 			std::cout << std::endl;
 		}
-	};
+	}
 }
 
-bool pathHorizontal(std::pair<int, int> position, std::vector<std::pair<int, int>>& path, std::vector<std::vector<int>> loopMap, int maxIter)
+template <typename T>
+bool Transportation<T>::pathHorizontal(std::pair<int, int> position, std::vector<std::pair<int, int>>& path, std::vector<std::vector<int>> loopMap, int maxIter)
 {
 	maxIter = maxIter--;
 	if (maxIter == 0)
@@ -928,7 +804,8 @@ bool pathHorizontal(std::pair<int, int> position, std::vector<std::pair<int, int
 	return false;
 }
 
-bool pathVertical(std::pair<int, int> position, std::vector<std::pair<int, int>>& path, std::vector<std::vector<int>> loopMap, int maxIter)
+template <typename T>
+bool Transportation<T>::pathVertical(std::pair<int, int> position, std::vector<std::pair<int, int>>& path, std::vector<std::vector<int>> loopMap, int maxIter)
 {
 	for (int i = 0; i < loopMap.size(); i++)
 	{
