@@ -4,6 +4,7 @@
 #include "ResultForm.h"
 #include <msclr\marshal_cppstd.h>
 
+
 using namespace System;
 using namespace System::Windows::Forms;
 
@@ -31,7 +32,7 @@ System::Void Transportation::MainForm::startButton_Click(System::Object^ sender,
 			std::vector<double> vectorL = FzTransportation::mainReadAndCalculate(sourceFilepath, System::Convert::ToInt32(numberOfSteps->Text));
 
 			this->Hide();
-			Transportation::ResultForm^ rForm = gcnew Transportation::ResultForm();
+			Transportation::ResultForm^ rForm = gcnew Transportation::ResultForm(/*vectorL*/);
 			rForm->Show();
 		}
 

@@ -5,10 +5,9 @@
 #include <vector>
 #include <numeric>
 #include <algorithm>
-//#include <windowsx.h>
+#include "libxl.h"
 
-using namespace std;
-
+using namespace libxl;
 
 namespace transportTask {
 
@@ -100,6 +99,26 @@ namespace transportTask {
 			this->button2->UseVisualStyleBackColor = true;
 			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
 			// 
+			// button3
+			// 
+			this->button3->Location = System::Drawing::Point(228, 12);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(170, 80);
+			this->button3->TabIndex = 4;
+			this->button3->Text = L"Ввести результат в файл";
+			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
+			// 
+			// button4
+			// 
+			this->button4->Location = System::Drawing::Point(71, 631);
+			this->button4->Name = L"button4";
+			this->button4->Size = System::Drawing::Size(282, 51);
+			this->button4->TabIndex = 5;
+			this->button4->Text = L"Назад";
+			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button4_Click);
+			// 
 			// chart1
 			// 
 			chartArea2->Name = L"ChartArea1";
@@ -133,26 +152,6 @@ namespace transportTask {
 			this->richTextBox1->Text = L"";
 			this->richTextBox1->TextChanged += gcnew System::EventHandler(this, &MyForm::richTextBox1_TextChanged);
 			// 
-			// button3
-			// 
-			this->button3->Location = System::Drawing::Point(228, 12);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(170, 80);
-			this->button3->TabIndex = 4;
-			this->button3->Text = L"Ввести результат в файл";
-			this->button3->UseVisualStyleBackColor = true;
-			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
-			// 
-			// button4
-			// 
-			this->button4->Location = System::Drawing::Point(71, 631);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(282, 51);
-			this->button4->TabIndex = 5;
-			this->button4->Text = L"Назад";
-			this->button4->UseVisualStyleBackColor = true;
-			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button4_Click);
-			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
@@ -183,8 +182,8 @@ namespace transportTask {
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) { //кнопка построить график
 		button2->Enabled = false;	//запрет на повторное нажатие клавиш
 		int const size = 6;
-		vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };
-		vector<double> reliability_f = { 1, 0.78, 0.57, 0.34, 0.11, 0 };
+		std::vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };
+		std::vector<double> reliability_f = { 1, 0.78, 0.57, 0.34, 0.11, 0 };
 		double a = 0, b = 100, h = 10, X1, Y1, X2, Y2;
 
 		//подписать оси
@@ -217,9 +216,9 @@ namespace transportTask {
 		//расчеты точки пересечения на графике
 		//метод наименьших квадратов
 
-		vector<double> X_array = { 50, 60, 70, 80, 90, 100 };
-		vector<double> xy;	//умножение x*y
-		vector<double> xx;	//возведение x^2
+		std::vector<double> X_array = { 50, 60, 70, 80, 90, 100 };
+		std::vector<double> xy;	//умножение x*y
+		std::vector<double> xx;	//возведение x^2
 		int n = size;		//кол-во точек
 
 		double sum_x = 0, sum_y = 0, sum_xy = 0, sum_xx = 0;
@@ -276,10 +275,10 @@ namespace transportTask {
 		button1->Enabled = false;
 		int const N = 6;																//кол-во шагов(размер массива)
 		int const size = 6;
-		vector<double> min_costs = { 77080.0, 93208.0, 109576.0, 126456.0, 143576.0, 152300.0 };      //минимальные затраты             
-		vector<double> reliability_f;													    //надежность функции цели
-		vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };                  //надежность потребностей 
-		vector<double> min ;															    //последняя матрица
+		std::vector<double> min_costs = { 77080.0, 93208.0, 109576.0, 126456.0, 143576.0, 152300.0 };      //минимальные затраты             
+		std::vector<double> reliability_f;													    //надежность функции цели
+		std::vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };                  //надежность потребностей 
+		std::vector<double> min;															    //последняя матрица
 		
 		double C_max = min_costs[0];
 		double C_min = min_costs[0];
@@ -336,6 +335,7 @@ private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e
 private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Hide();	//свернуть форму
 	//f2->Show();	//???открыть новую форму???
+
 }
 };
 }
