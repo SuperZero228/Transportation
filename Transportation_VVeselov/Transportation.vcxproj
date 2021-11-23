@@ -148,6 +148,7 @@
     <ClInclude Include="Header\ResultForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Header\templates.h" />
     <ClInclude Include="Header\Transportation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

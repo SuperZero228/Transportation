@@ -3,11 +3,16 @@
 #include <vector>
 #include <algorithm> 
 #include "libxl.h"
-#include <atlconv.h> 
+#include <atlconv.h>
+#include "templates.h"
+//#include "Transportation.h"
+//#include "Transportation.cpp"	
 
 using namespace libxl;
+//template class Transportation<int>;
+//template class Transportation<double>;
 
-int Transportation::mainReadAndCalculate(std::string sourceFilepath, int numberOfSteps)
+std::vector<double> FzTransportation::mainReadAndCalculate(std::string sourceFilepath, int numberOfSteps)
 {
 	std::vector<double> A, B;										//обьемы произв-ва и потреб-я в пунктах
 
@@ -152,23 +157,11 @@ int Transportation::mainReadAndCalculate(std::string sourceFilepath, int numberO
 		}
 		std::cout << std::endl;
 	}
-
-	//std::vector<double> A;
-	//std::vector<std::vector<double>> vectorOfNeeds;
-	//std::vector<std::vector<double>> C(amountA, std::vector <double>(amountB));
-
-	//Transportation<int> problem(A, B, C);
-	//L = problem.getL();
-	//std::cout << std::endl << "result = " << L << std::endl;
-
-	//objective_function_values.pushback(L)
-
-	//return vector<double> objective_function_values
-
-	return 0;
+	//return 0;
+	return get_objective_function_values(numberOfSteps, amountB, vectorOfNeeds, A, C);
 }
 
-std::wstring Transportation::s2ws(const std::string& s)
+std::wstring FzTransportation::s2ws(const std::string& s)
 {
 	int len;
 	int slength = (int)s.length() + 1;

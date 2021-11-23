@@ -6,10 +6,12 @@
 #include <atlconv.h> 
 
 
-namespace Transportation {
+namespace FzTransportation {
 
-	int mainReadAndCalculate(std::string, int);
+	std::vector<double> mainReadAndCalculate(std::string, int);
 
 	std::wstring s2ws(const std::string& s);
+
+	//std::vector<double> get_objective_function_values(int N, int amountB, std::vector<std::vector<double>> vectorOfNeeds, std::vector<double> A, std::vector<std::vector<double>> C);
 
 }

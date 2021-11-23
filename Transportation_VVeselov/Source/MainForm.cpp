@@ -28,7 +28,7 @@ System::Void Transportation::MainForm::startButton_Click(System::Object^ sender,
 			MessageBox::Show("Все в порядке!", "Уведомление");
 
 			std::string sourceFilepath = msclr::interop::marshal_as<std::string>(fDialog->FileName); // Добавить проверку на число
-			Transportation::mainReadAndCalculate(sourceFilepath, System::Convert::ToInt32(numberOfSteps->Text));
+			std::vector<double> vectorL = FzTransportation::mainReadAndCalculate(sourceFilepath, System::Convert::ToInt32(numberOfSteps->Text));
 
 			this->Hide();
 			Transportation::ResultForm^ rForm = gcnew Transportation::ResultForm();
