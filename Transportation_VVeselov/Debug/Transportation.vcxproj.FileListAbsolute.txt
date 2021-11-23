@@ -1,2 +1,0 @@
-C:\Users\idrdi\OneDrive\Desktop\Transportation\Transportation_VVeselov\Debug\Transportation.vcxproj.AssemblyReference.cache
-C:\Users\idrdi\OneDrive\Desktop\Transportation\Transportation_VVeselov\Debug\Transportation.exe

@@ -1,4 +1,0 @@
-﻿  ReadAndCalculate.cpp
-C:\Users\idrdi\OneDrive\Desktop\Transportation\Transportation_VVeselov\Source\ReadAndCalculate.cpp(155,31): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
-  MainForm.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
-  Transportation.vcxproj -> C:\Users\idrdi\OneDrive\Desktop\Transportation\Transportation_VVeselov\Debug\Transportation.exe
