@@ -32,7 +32,8 @@ System::Void Transportation::MainForm::startButton_Click(System::Object^ sender,
 			std::vector<double> vectorL = FzTransportation::mainReadAndCalculate(sourceFilepath, System::Convert::ToInt32(numberOfSteps->Text));
 
 			this->Hide();
-			Transportation::ResultForm^ rForm = gcnew Transportation::ResultForm(/*vectorL*/);
+			std::vector<double> real_r = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };//---------!!!!!!!!!ÊÎÑÒÛËÜ!!!!--------------
+			Transportation::ResultForm^ rForm = gcnew Transportation::ResultForm(vectorL, real_r);
 			rForm->Show();
 		}
 
