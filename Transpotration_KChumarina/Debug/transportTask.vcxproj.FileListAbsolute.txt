@@ -2,3 +2,7 @@ C:\Users\a1272\OneDrive\Рабочий стол\проект\transportTask\Debug
 C:\Users\a1272\OneDrive\Рабочий стол\проект\transportTask\Debug\transportTask.exe
 C:\Users\a1272\OneDrive\Рабочий стол\проект\transportTask\Debug\transportTask.MyForm.resources
 C:\Users\a1272\OneDrive\Рабочий стол\проект\transportTask\Debug\transportTask.vcxproj.GenerateResource.cache
+C:\Users\a1272\OneDrive\Рабочий стол\Transportation\Transpotration_KChumarina\Debug\transportTask.vcxprojAssemblyReference.cache
+C:\Users\a1272\OneDrive\Рабочий стол\Transportation\Transpotration_KChumarina\Debug\transportTask.MyForm.resources
+C:\Users\a1272\OneDrive\Рабочий стол\Transportation\Transpotration_KChumarina\Debug\transportTask.vcxproj.GenerateResource.cache
+C:\Users\a1272\OneDrive\Рабочий стол\Transportation\Transpotration_KChumarina\Debug\transportTask.exe

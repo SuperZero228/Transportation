@@ -1,3 +1,3 @@
 ﻿  MyForm.cpp
-  MyForm.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
-  transportTask.vcxproj -> C:\Users\a1272\OneDrive\Рабочий стол\проект\transportTask\Debug\transportTask.exe
+C:\Users\a1272\OneDrive\Рабочий стол\Transportation\Transpotration_KChumarina\MyForm.h(268,10): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+LINK : fatal error LNK1104: не удается открыть файл "C:\Users\a1272\OneDrive\Рабочий стол\Transportation\Transpotration_KChumarina\Debug\transportTask.exe"
