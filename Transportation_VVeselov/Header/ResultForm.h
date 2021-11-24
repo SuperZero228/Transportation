@@ -359,13 +359,12 @@ namespace Transportation {
 
 					}
 				}
-				for (int row = sheet->firstRow(); row < min_costs.size(); row++)
+				for (int row = sheet->firstRow(); row <= (*reliability_f).size(); row++)
 				{
 					for (int col = sheet->firstCol(); col <= sheet->firstCol(); col++)
 					{
-						int a = (*reliability_f)[row]; //----ÍÅ ÐÀÁÎÒÀÅÒ-----
-						//int a = qq[row];
-						sheet->writeNum((row /*+ 1*/), (col+1), a);
+						double a = (*reliability_f)[row - 1]; 
+						sheet->writeNum(row, (col + 1), a);
 
 					}
 				}
