@@ -1,6 +1,7 @@
 #pragma once
 //#using <System.Windows.Forms.DataVisualization.dll>
 
+#include "MainForm.h"
 #include <math.h>
 #include <fstream>
 #include <string>
@@ -336,6 +337,7 @@ namespace Transportation {
 		std::vector<double> min_costs = { 77080.0, 93208.0, 109576.0, 126456.0, 143576.0, 152300.0 };//-----------эти данные получаю----------
 		
 		Book* book = xlCreateBook();
+		//-----------запись оптимального значения целевой функции задачи-----------
 		if (book)
 		{
 			Sheet* sheet = book->addSheet(L"Sheet1");
@@ -356,11 +358,34 @@ namespace Transportation {
 	
 		}
 
+		//-----------запись надежности функции цели-----------
+		Book* book = xlCreateBook();
+		if (book)
+		{
+			Sheet* sheet = book->addSheet(L"Sheet1");
+			if (sheet)
+			{
+				for (int row = sheet->firstRow(); row < min_costs.size(); row++)
+				{
+					for (int col = sheet->firstCol(); col <= sheet->firstCol(); col++)
+					{
+						int a = (*reliability_req)[row];
+						sheet->writeNum((row + 1), col, a);
+
+					}
+				}
+			}
+			book->save(L"C:\\Users\\a1272\\OneDrive\\Рабочий стол\\Transportation\\Transportation_VVeselov\\Resource\\result.xls");
+			book->release();
+
+		}
+
 	}
 
 	private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->Hide();	//свернуть форму
-		//f2->Show();	//???открыть новую форму???
+		this->Hide();    //свернуть форму
+		Transportation::MainForm^ mForm = gcnew Transportation::MainForm();
+		mForm->Show();
 	}
 
 
