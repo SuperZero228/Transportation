@@ -56,9 +56,9 @@ namespace Transportation {
 	private: System::Windows::Forms::RichTextBox^ richTextBox1;
 	private: System::Windows::Forms::Button^ button3;
 	private: System::Windows::Forms::Button^ button4;
-	private: std::vector<double>* vecL;
-	private: std::vector<double>* reliability_req;                  //надежность потребностей 
-	private: std::vector<double>* reliability_f;/* = { 1, 0.78, 0.57, 0.34, 0.11, 0 };*/// -----!!!эти данные считаю!!!!
+	private: std::vector<double>* vecL = new std::vector<double>;
+	private: std::vector<double>* reliability_req = new std::vector<double>;                  //надежность потребностей 
+	private: std::vector<double>* reliability_f = new std::vector<double>;/* = { 1, 0.78, 0.57, 0.34, 0.11, 0 };*/// -----!!!эти данные считаю!!!!
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
@@ -207,7 +207,7 @@ namespace Transportation {
 
 		for (int i = 0; i < size; i++)
 		{
-			(*reliability_f).push_back((C_max - min_costs[i]) / (C_max - C_min));
+			this->reliability_f->push_back((C_max - min_costs[i]) / (C_max - C_min));
 		}
 
 		richTextBox1->Text = richTextBox1->Text + "Надежность функции цели: \n";
@@ -353,13 +353,10 @@ namespace Transportation {
 					}
 				}
 			}
-			book->save(L"C:\\Users\\a1272\\OneDrive\\Рабочий стол\\Transportation\\Transportation_VVeselov\\Resource\\result.xls");
-			book->release();
-	
+			book->save(L".\\Resource\\result.xls");	
 		}
 
 		//-----------запись надежности функции цели-----------
-		Book* book = xlCreateBook();
 		if (book)
 		{
 			Sheet* sheet = book->addSheet(L"Sheet1");
@@ -375,12 +372,12 @@ namespace Transportation {
 					}
 				}
 			}
-			book->save(L"C:\\Users\\a1272\\OneDrive\\Рабочий стол\\Transportation\\Transportation_VVeselov\\Resource\\result.xls");
-			book->release();
-
+			book->save(L".\\Resource\\result.xls");
 		}
+		book->release();
 
 	}
+	
 
 	private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();    //свернуть форму
