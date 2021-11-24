@@ -192,25 +192,24 @@ namespace Transportation {
 		button1->Enabled = false;
 		int const N = 6;																//кол-во шагов(размер массива)
 		int const size = 6;
-		std::vector<double> min_costs = { 77080.0, 93208.0, 109576.0, 126456.0, 143576.0, 152300.0 };      //минимальные затраты             
 		//std::vector<double> reliability_f;													    //надежность функции цели
 		//std::vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };                  //надежность потребностей 
 		std::vector<double> min;															    //последняя матрица
 
-		double C_max = min_costs[0];
-		double C_min = min_costs[0];
+		double C_max = (*vecL)[0];
+		double C_min = (*vecL)[0];
 
 		for (int i = 1; i < size; i++)
 		{
-			if (C_max < min_costs[i]) C_max = min_costs[i];
-			if (C_min > min_costs[i]) C_min = min_costs[i];
+			if (C_max < (*vecL)[i]) C_max = (*vecL)[i];
+			if (C_min > (*vecL)[i]) C_min = (*vecL)[i];
 		}
 
 		//--------надежность целевой функции-------------
 
 		for (int i = 0; i < size; i++)
 		{
-			this->reliability_f->push_back((C_max - min_costs[i]) / (C_max - C_min));
+			this->reliability_f->push_back((C_max - (*vecL)[i]) / (C_max - C_min));
 		}
 
 		richTextBox1->Text = richTextBox1->Text + "Надежность функции цели: \n";
@@ -341,8 +340,6 @@ namespace Transportation {
 
 	private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
 		button3->Enabled = false;
-		std::vector<double> min_costs = { 77080.0, 93208.0, 109576.0, 126456.0, 143576.0, 152300.0 };//-----------эти данные получаю----------
-		std::vector<double> qq = { 770.0, 208.0, 1076.0, 1456.0, 1576.0,5200.0 };
 		Book* book = xlCreateBook();
 		//-----------запись оптимального значения целевой функции задачи-----------
 		if (book)
@@ -350,11 +347,11 @@ namespace Transportation {
 			Sheet* sheet = book->addSheet(L"Sheet1");
 			if (sheet)
 			{
-				for (int row = sheet->firstRow(); row < min_costs.size(); row++)
+				for (int row = sheet->firstRow(); row < (*vecL).size(); row++)
 				{
 					for (int col = sheet->firstCol(); col <= sheet->firstCol(); col++)
 					{
-						int a = min_costs[row];
+						int a = (*vecL)[row];
 						sheet->writeNum((row + 1), col, a);
 
 					}

@@ -40,23 +40,6 @@ std::vector<double> FzTransportation::mainReadAndCalculate(std::string sourceFil
 	}
 
 
-	std::vector<double> fuzzyValues;
-	for (int i = 0; i < amountB; i++)
-	{
-		fuzzyValues.push_back(B[i] - beta[i]);
-		fuzzyValues.push_back(B[i]);
-		fuzzyValues.push_back(bigNum);
-	}
-
-	std::cout << "нечеткие величины (треугольные числа)" << std::endl;
-	for (int i = 0; i < (3 * amountB); i++)
-	{
-		std::cout << fuzzyValues[i] << ";  ";
-		if ((i + 1) % 3 == 0)
-		{
-			std::cout << "\n";
-		}
-	}
 
 
 	std::cout << "Вектора нечетких потребностей " << std::endl;
