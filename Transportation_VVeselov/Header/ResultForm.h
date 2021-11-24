@@ -295,8 +295,8 @@ namespace Transportation {
 		}
 
 		double k = 0, b1 = 0;
-		k = (N * sum_xy - sum_x * sum_y) / (N * sum_xx - pow(sum_x, 2));
-		b1 = (sum_y - k * sum_x) / N;
+		k = ((*numberOfSteps) * sum_xy - sum_x * sum_y) / ((*numberOfSteps) * sum_xx - pow(sum_x, 2));
+		b1 = (sum_y - k * sum_x) / (*numberOfSteps);
 
 		//richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности функции цели: y=" + round(k * 100.0) / 100.0 + "x+" + round(b1 * 100.0) / 100.0 + "\n";
 
