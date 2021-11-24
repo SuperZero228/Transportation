@@ -31,6 +31,18 @@ T Transportation<T>::getL()
 }
 
 template <typename T>
+std::vector<std::pair<T, std::pair<int, int>>> Transportation<T>::getBasis() 
+{
+	return basisPerem_e;
+}
+
+template <typename T>
+std::vector<std::vector<T>> Transportation<T>::getC()
+{
+	return C;
+}
+
+template <typename T>
 void Transportation<T>::solve()
 {
 	if (sumA != sumB)

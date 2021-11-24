@@ -61,7 +61,7 @@ namespace Transportation {
 	private: System::Windows::Forms::Button^ button4;
 	private: std::vector<double>* vecL = new std::vector<double>;
 	private: std::vector<double>* reliability_req = new std::vector<double>;                  //надежность потребностей 
-	private: std::vector<double>* reliability_f = new std::vector<double>;/* = { 1, 0.78, 0.57, 0.34, 0.11, 0 };*/// -----!!!эти данные считаю!!!!
+	private: std::vector<double>* reliability_f = new std::vector<double>;					//надежность функции цели
 	private: std::string* filepath2read = new std::string();
 	private: int* numberOfSteps = new int();
 	private:
@@ -226,18 +226,8 @@ namespace Transportation {
 			else
 				min.push_back((*reliability_f)[i]);
 		}
-		//richTextBox1.Text = richTextBox1.Text + "минимальное: " + System.Environment.NewLine;
-		/*for (int i = 0; i < min_costs.Length; i++)
-		{
-			richTextBox1.Text = richTextBox1.Text + "шаг:" + i + " min:" + Math.Round(min[i], 2) + System.Environment.NewLine;
-		}*/
+	
 		auto max = max_element(min.begin(), min.end());
-
-		/*for (int i = 1; i < size; i++)
-		{
-			if (min[i] > max)
-				max = min[i];
-		}*/
 
 	}
 
@@ -305,21 +295,17 @@ namespace Transportation {
 		}
 
 		double k = 0, b1 = 0;
-		k = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - pow(sum_x, 2));
-		b1 = (sum_y - k * sum_x) / n;
+		k = (N * sum_xy - sum_x * sum_y) / (N * sum_xx - pow(sum_x, 2));
+		b1 = (sum_y - k * sum_x) / N;
 
-		//richTextBox1->Text = richTextBox1->Text + "значение k=" + round(k * 100.0) / 100.0 + "\n";
-		//richTextBox1->Text = richTextBox1->Text + "значение b=" + round(b1 * 100.0) / 100.0 + "\n";
-		richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности функции цели: y=" + round(k * 100.0) / 100.0 + "x+" + round(b1 * 100.0) / 100.0 + "\n";
+		//richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности функции цели: y=" + round(k * 100.0) / 100.0 + "x+" + round(b1 * 100.0) / 100.0 + "\n";
 
-		//расчет второго уравнения с координатами точек (0,50)(1,100)
+		//расчет второго уравнения с координатами точек (50,0)(100,1)
 		double x1 = 50, x2 = 100, y1 = 0, y2 = 1, k2, b2;
 		k2 = (y2 - y1) / (x2 - x1);
 		b2 = (x2 * y1 - y2 * x1) / (x2 - x1);
 
-		//richTextBox1->Text = richTextBox1->Text + "значение k=" + round(k2 * 100.0) / 100.0 + "\n";
-		//richTextBox1->Text = richTextBox1->Text + "значение b=" + round(b2 * 100.0) / 100.0 + "\n";
-		richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности потребностей: y=" + round(k2 * 100.0) / 100.0 + "x+ (" + round(b2 * 100.0) / 100.0 + ")" + "\n";
+		//richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности потребностей: y=" + round(k2 * 100.0) / 100.0 + "x+ (" + round(b2 * 100.0) / 100.0 + ")" + "\n";
 
 
 		//нахождение x,y
@@ -357,7 +343,7 @@ namespace Transportation {
 				{
 					for (int col = sheet->firstCol(); col <= sheet->firstCol(); col++)
 					{
-						int a = (*vecL)[row];
+						double a = (*vecL)[row];
 						sheet->writeNum((row + 1), col, a);
 
 					}
