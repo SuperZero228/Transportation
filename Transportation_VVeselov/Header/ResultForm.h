@@ -4,7 +4,6 @@
 #include "MainForm.h"
 #include "ReadAndCalculate.h"
 #include <math.h>
-#include <fstream>
 #include <string>
 #include <vector>
 #include <numeric>
@@ -60,8 +59,9 @@ namespace Transportation {
 	private: System::Windows::Forms::Button^ button4;
 	private: std::vector<double>* vecL = new std::vector<double>;
 	private: std::vector<double>* reliability_req = new std::vector<double>;                  //надежность потребностей 
-	private: std::vector<double>* reliability_f = new std::vector<double>;/* = { 1, 0.78, 0.57, 0.34, 0.11, 0 };*/// -----!!!эти данные считаю!!!!
+	private: std::vector<double>* reliability_f = new std::vector<double>;					//надежность функции цели
 	private: std::string* filepath2read = new std::string();
+	private: int const N = 6;
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
@@ -190,16 +190,13 @@ namespace Transportation {
 
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) { //кнопка результат
 		button1->Enabled = false;
-		int const N = 6;																//кол-во шагов(размер массива)
-		int const size = 6;
-		//std::vector<double> reliability_f;													    //надежность функции цели
-		//std::vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };                  //надежность потребностей 
+	
 		std::vector<double> min;															    //последняя матрица
 
 		double C_max = (*vecL)[0];
 		double C_min = (*vecL)[0];
 
-		for (int i = 1; i < size; i++)
+		for (int i = 1; i < N; i++)
 		{
 			if (C_max < (*vecL)[i]) C_max = (*vecL)[i];
 			if (C_min > (*vecL)[i]) C_min = (*vecL)[i];
@@ -207,44 +204,31 @@ namespace Transportation {
 
 		//--------надежность целевой функции-------------
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < N; i++)
 		{
 			this->reliability_f->push_back((C_max - (*vecL)[i]) / (C_max - C_min));
 		}
 
 		richTextBox1->Text = richTextBox1->Text + "Надежность функции цели: \n";
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < N; i++)
 		{
 			richTextBox1->Text = richTextBox1->Text + "Шаг:" + i + " Результат:" + round((*reliability_f)[i] * 100.0) / 100.0 + "\n";
 		}
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < N; i++)
 		{
 			if ((*reliability_req)[i] < (*reliability_f)[i])
 				min.push_back((*reliability_req)[i]);
 			else
 				min.push_back((*reliability_f)[i]);
 		}
-		//richTextBox1.Text = richTextBox1.Text + "минимальное: " + System.Environment.NewLine;
-		/*for (int i = 0; i < min_costs.Length; i++)
-		{
-			richTextBox1.Text = richTextBox1.Text + "шаг:" + i + " min:" + Math.Round(min[i], 2) + System.Environment.NewLine;
-		}*/
+	
 		auto max = max_element(min.begin(), min.end());
-
-		/*for (int i = 1; i < size; i++)
-		{
-			if (min[i] > max)
-				max = min[i];
-		}*/
 
 	}
 
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) { //кнопка построить график
 		button2->Enabled = false;	//запрет на повторное нажатие клавиш
-		int const size = 6;
-		//std::vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };
-		//std::vector<double> reliability_f = { 1, 0.78, 0.57, 0.34, 0.11, 0 };// -----!!!эти данные считаю!!!!
 		double a = 0, b = 100, h = 10, X1, Y1, X2, Y2;
 
 		//подписать оси
@@ -264,7 +248,7 @@ namespace Transportation {
 		X1 = 50;
 		X2 = 50;
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < N; i++)
 		{
 			Y1 = (*reliability_req)[i];
 			Y2 = (*reliability_f)[i];
@@ -280,17 +264,16 @@ namespace Transportation {
 		std::vector<double> X_array = { 50, 60, 70, 80, 90, 100 };
 		std::vector<double> xy;	//умножение x*y
 		std::vector<double> xx;	//возведение x^2
-		int n = size;		//кол-во точек
 
 		double sum_x = 0, sum_y = 0, sum_xy = 0, sum_xx = 0;
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < N; i++)
 		{
 			xy.push_back(X_array[i] * (*reliability_f)[i]);
 			xx.push_back(pow(X_array[i], 2));
 		}
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < N; i++)
 		{
 			sum_x += X_array[i];
 			sum_y += (*reliability_f)[i];
@@ -299,21 +282,17 @@ namespace Transportation {
 		}
 
 		double k = 0, b1 = 0;
-		k = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - pow(sum_x, 2));
-		b1 = (sum_y - k * sum_x) / n;
+		k = (N * sum_xy - sum_x * sum_y) / (N * sum_xx - pow(sum_x, 2));
+		b1 = (sum_y - k * sum_x) / N;
 
-		//richTextBox1->Text = richTextBox1->Text + "значение k=" + round(k * 100.0) / 100.0 + "\n";
-		//richTextBox1->Text = richTextBox1->Text + "значение b=" + round(b1 * 100.0) / 100.0 + "\n";
-		richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности функции цели: y=" + round(k * 100.0) / 100.0 + "x+" + round(b1 * 100.0) / 100.0 + "\n";
+		//richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности функции цели: y=" + round(k * 100.0) / 100.0 + "x+" + round(b1 * 100.0) / 100.0 + "\n";
 
-		//расчет второго уравнения с координатами точек (0,50)(1,100)
+		//расчет второго уравнения с координатами точек (50,0)(100,1)
 		double x1 = 50, x2 = 100, y1 = 0, y2 = 1, k2, b2;
 		k2 = (y2 - y1) / (x2 - x1);
 		b2 = (x2 * y1 - y2 * x1) / (x2 - x1);
 
-		//richTextBox1->Text = richTextBox1->Text + "значение k=" + round(k2 * 100.0) / 100.0 + "\n";
-		//richTextBox1->Text = richTextBox1->Text + "значение b=" + round(b2 * 100.0) / 100.0 + "\n";
-		richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности потребностей: y=" + round(k2 * 100.0) / 100.0 + "x+ (" + round(b2 * 100.0) / 100.0 + ")" + "\n";
+		//richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности потребностей: y=" + round(k2 * 100.0) / 100.0 + "x+ (" + round(b2 * 100.0) / 100.0 + ")" + "\n";
 
 
 		//нахождение x,y
@@ -351,7 +330,7 @@ namespace Transportation {
 				{
 					for (int col = sheet->firstCol(); col <= sheet->firstCol(); col++)
 					{
-						int a = (*vecL)[row];
+						double a = (*vecL)[row];
 						sheet->writeNum((row + 1), col, a);
 
 					}
