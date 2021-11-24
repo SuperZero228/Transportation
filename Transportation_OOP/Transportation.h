@@ -31,4 +31,6 @@ private:
 public:
 	Transportation(std::vector<T> A, std::vector<T> B, std::vector<std::vector<T>> C, bool full_out = false);
 	T getL();
+	std::vector<std::pair<T, std::pair<int, int>>> getBasis();
+	std::vector<std::vector<T>> getC();
 };
