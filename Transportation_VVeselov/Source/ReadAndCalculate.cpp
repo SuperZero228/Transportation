@@ -86,12 +86,15 @@ std::vector<double> FzTransportation::mainReadAndCalculate(std::string sourceFil
 	return get_objective_function_values(numberOfSteps, amountB, vectorOfNeeds, A, C);
 }
 
-std::vector<double> FzTransportation::calculateVectorBByX(std::string sourceFilepath, int x) {
-	std::vector<double> A, B;										//обьемы произв-ва и потреб-я в пунктах
-	std::vector<std::vector<double>> C;		                        //матрица транспортных издержек
+double FzTransportation::calculateObjectiveFunctionValue(std::string sourceFilepath, int x) {
+	std::vector<double> A, B, vL;										//обьемы произв-ва и потреб-я в пунктах
+	std::vector<std::vector<double>> C;  	                        //матрица транспортных издержек
 
 	int amountA = 0;                                                //кол-во пунктов производства
 	int amountB = 0;												//кол-во пунктов потребления
+	double dx = x;
+
+	dx = dx / 100;
 
 	Book* book = xlCreateBook();
 
@@ -105,13 +108,15 @@ std::vector<double> FzTransportation::calculateVectorBByX(std::string sourceFile
 	C = FzTransportation::readVectorCFromExcell(finishedFilepath, amountA, amountB);
 
 
-	B = FzTransportation::getVectorBByX(amountB, B, x);
+	B = FzTransportation::getVectorBByX(amountB, B, dx);
 
 
 	std::vector<std::vector<double>> vB;
 	vB.push_back(B);
 
-	return get_objective_function_values(ONE_STEP, amountB, vB, A, C);
+	vL = get_objective_function_values(ONE_STEP, amountB, vB, A, C); // Костыль!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	return vL[0];
 }
 
 std::vector<double> FzTransportation::getVectorBByX(int amountB, std::vector<double> B, double x)

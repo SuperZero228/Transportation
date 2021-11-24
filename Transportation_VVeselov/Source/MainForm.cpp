@@ -33,7 +33,7 @@ System::Void Transportation::MainForm::startButton_Click(System::Object^ sender,
 
 			this->Hide();
 			std::vector<double> real_r = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };//---------!!!!!!!!!ÊÎÑÒÛËÜ!!!!--------------
-			Transportation::ResultForm^ rForm = gcnew Transportation::ResultForm(vectorL, real_r);
+			Transportation::ResultForm^ rForm = gcnew Transportation::ResultForm(sourceFilepath, vectorL, real_r);
 			rForm->Show();
 		}
 

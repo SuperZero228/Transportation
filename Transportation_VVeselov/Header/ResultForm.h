@@ -2,6 +2,7 @@
 //#using <System.Windows.Forms.DataVisualization.dll>
 
 #include "MainForm.h"
+#include "ReadAndCalculate.h"
 #include <math.h>
 #include <fstream>
 #include <string>
@@ -28,13 +29,14 @@ namespace Transportation {
 	public ref class ResultForm : public System::Windows::Forms::Form
 	{
 	public:
-		ResultForm(std::vector<double> vectorL, std::vector<double> real_r)
+		ResultForm(std::string sourceFilepath, std::vector<double> vectorL, std::vector<double> real_r)
 		{
 			InitializeComponent();
 			//
 			//TODO: добавьте код конструктора
-			this->vecL = &vectorL;
-			this->reliability_req = &real_r;
+			(*vecL) = vectorL;
+			(*reliability_req) = real_r;
+			(*filepath2read) = sourceFilepath;
 			// 
 		}
 
@@ -59,6 +61,7 @@ namespace Transportation {
 	private: std::vector<double>* vecL = new std::vector<double>;
 	private: std::vector<double>* reliability_req = new std::vector<double>;                  //надежность потребностей 
 	private: std::vector<double>* reliability_f = new std::vector<double>;/* = { 1, 0.78, 0.57, 0.34, 0.11, 0 };*/// -----!!!эти данные считаю!!!!
+	private: std::string* filepath2read = new std::string();
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
@@ -327,7 +330,11 @@ namespace Transportation {
 			richTextBox1->Text = richTextBox1->Text + "x=" + x + "\n";
 			richTextBox1->Text = richTextBox1->Text + "y=" + round(y * 100.0) / 100.0 + "\n";
 
+			double result = FzTransportation::calculateObjectiveFunctionValue((*filepath2read), x); // Кати Касько!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+			richTextBox1->Text = richTextBox1->Text + "result=" + result + "\n";
 		}
+
 	}
 
 	
@@ -356,8 +363,8 @@ namespace Transportation {
 				{
 					for (int col = sheet->firstCol(); col <= sheet->firstCol(); col++)
 					{
-						//int a = (*reliability_f)[row]; //----НЕ РАБОТАЕТ-----
-						int a = qq[row];
+						int a = (*reliability_f)[row]; //----НЕ РАБОТАЕТ-----
+						//int a = qq[row];
 						sheet->writeNum((row /*+ 1*/), (col+1), a);
 
 					}
@@ -366,26 +373,6 @@ namespace Transportation {
 			book->save(L".\\Resource\\result.xls");	
 		}
 		book->release();
-		//-----------запись надежности функции цели-----------
-		/*if (book)
-		{
-			Sheet* sheet = book->addSheet(L"Sheet1");
-			if (sheet)
-			{
-				for (int row = sheet->firstRow(); row < min_costs.size(); row++)
-				{
-					for (int col = sheet->firstCol(); col <= sheet->firstCol()+1; col++)
-					{
-						int a = qq[row];
-	
-						sheet->writeNum((row + 1), col, a);
-
-					}
-				}
-			}
-			book->save(L".\\Resource\\result.xls");
-		}
-		book->release();*/
 
 	}
 	

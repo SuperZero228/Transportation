@@ -12,7 +12,7 @@ namespace FzTransportation {
 
 	std::wstring s2ws(const std::string& s);
 
-	std::vector<double> calculateVectorBByX(std::string sourceFilepath, int x);
+	double calculateObjectiveFunctionValue(std::string sourceFilepath, int x);
 
 	std::vector<double> getVectorBByX(int amountB, std::vector<double> B, double x);
 

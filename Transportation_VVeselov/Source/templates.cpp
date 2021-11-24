@@ -22,7 +22,6 @@ std::vector<double> get_objective_function_values(int N, int amountB, std::vecto
 
 	    Transportation<double> problem(A, needs, C);
 	    int L = problem.getL();
-		std::cout << std::endl << "result = " << L << std::endl;
 
 	    objective_function_values.push_back(L);
 		}
