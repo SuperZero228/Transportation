@@ -12,6 +12,13 @@ namespace FzTransportation {
 
 	std::wstring s2ws(const std::string& s);
 
-	//std::vector<double> get_objective_function_values(int N, int amountB, std::vector<std::vector<double>> vectorOfNeeds, std::vector<double> A, std::vector<std::vector<double>> C);
+	std::vector<double> calculateVectorBByX(std::string sourceFilepath, int x);
 
+	std::vector<double> getVectorBByX(int amountB, std::vector<double> B, double x);
+
+	std::vector<double> readVectorAFromExcell(const wchar_t* finishedFilepath, int& amountA);
+
+	std::vector<double> readVectorBFromExcell(const wchar_t* finishedFilepath, int& amountB);
+
+	std::vector<std::vector<double>> readVectorCFromExcell(const wchar_t* finishedFilepath, int& amountA, int& amountB);
 }
