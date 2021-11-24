@@ -29,11 +29,10 @@ System::Void Transportation::MainForm::startButton_Click(System::Object^ sender,
 			MessageBox::Show("Все в порядке!", "Уведомление");
 
 			std::string sourceFilepath = msclr::interop::marshal_as<std::string>(fDialog->FileName); // Добавить проверку на число
-			std::vector<double> vectorL = FzTransportation::mainReadAndCalculate(sourceFilepath, System::Convert::ToInt32(numberOfSteps->Text));
 
 			this->Hide();
 			std::vector<double> real_r = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };//---------!!!!!!!!!КОСТЫЛЬ!!!!--------------
-			Transportation::ResultForm^ rForm = gcnew Transportation::ResultForm(sourceFilepath, vectorL, real_r);
+			Transportation::ResultForm^ rForm = gcnew Transportation::ResultForm(sourceFilepath, System::Convert::ToInt32(numberOfSteps->Text));
 			rForm->Show();
 		}
 

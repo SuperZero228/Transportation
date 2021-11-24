@@ -29,15 +29,16 @@ namespace Transportation {
 	public ref class ResultForm : public System::Windows::Forms::Form
 	{
 	public:
-		ResultForm(std::string sourceFilepath, std::vector<double> vectorL, std::vector<double> real_r)
+		ResultForm(std::string sourceFilepath, int nSteps)
 		{
 			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			(*vecL) = vectorL;
-			(*reliability_req) = real_r;
+			(*numberOfSteps) = nSteps;
 			(*filepath2read) = sourceFilepath;
-			// 
+			for (double k = 0; k < (*numberOfSteps); k++)
+			{
+				(*reliability_req).push_back(k / (*numberOfSteps));   // Костыль!!!!!! Написать в RAC функцию для подсчета мю
+			}
+			(*vecL) = FzTransportation::mainReadAndCalculate(sourceFilepath, (*numberOfSteps));
 		}
 
 	protected:
@@ -62,6 +63,7 @@ namespace Transportation {
 	private: std::vector<double>* reliability_req = new std::vector<double>;                  //надежность потребностей 
 	private: std::vector<double>* reliability_f = new std::vector<double>;/* = { 1, 0.78, 0.57, 0.34, 0.11, 0 };*/// -----!!!эти данные считаю!!!!
 	private: std::string* filepath2read = new std::string();
+	private: int* numberOfSteps = new int();
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
@@ -190,8 +192,7 @@ namespace Transportation {
 
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) { //кнопка результат
 		button1->Enabled = false;
-		int const N = 6;																//кол-во шагов(размер массива)
-		int const size = 6;
+
 		//std::vector<double> reliability_f;													    //надежность функции цели
 		//std::vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };                  //надежность потребностей 
 		std::vector<double> min;															    //последняя матрица
@@ -199,7 +200,7 @@ namespace Transportation {
 		double C_max = (*vecL)[0];
 		double C_min = (*vecL)[0];
 
-		for (int i = 1; i < size; i++)
+		for (int i = 1; i < (*numberOfSteps); i++)
 		{
 			if (C_max < (*vecL)[i]) C_max = (*vecL)[i];
 			if (C_min > (*vecL)[i]) C_min = (*vecL)[i];
@@ -207,18 +208,18 @@ namespace Transportation {
 
 		//--------надежность целевой функции-------------
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < (*numberOfSteps); i++)
 		{
 			this->reliability_f->push_back((C_max - (*vecL)[i]) / (C_max - C_min));
 		}
 
 		richTextBox1->Text = richTextBox1->Text + "Надежность функции цели: \n";
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < (*numberOfSteps); i++)
 		{
 			richTextBox1->Text = richTextBox1->Text + "Шаг:" + i + " Результат:" + round((*reliability_f)[i] * 100.0) / 100.0 + "\n";
 		}
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < (*numberOfSteps); i++)
 		{
 			if ((*reliability_req)[i] < (*reliability_f)[i])
 				min.push_back((*reliability_req)[i]);
@@ -242,10 +243,9 @@ namespace Transportation {
 
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) { //кнопка построить график
 		button2->Enabled = false;	//запрет на повторное нажатие клавиш
-		int const size = 6;
 		//std::vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };
 		//std::vector<double> reliability_f = { 1, 0.78, 0.57, 0.34, 0.11, 0 };// -----!!!эти данные считаю!!!!
-		double a = 0, b = 100, h = 10, X1, Y1, X2, Y2;
+		double a = 0, b = 100, h = 50/((*numberOfSteps) - 1), X1, Y1, X2, Y2;
 
 		//подписать оси
 		this->chart1->ChartAreas[0]->AxisX->Title = "Уровень потребностей";
@@ -264,7 +264,14 @@ namespace Transportation {
 		X1 = 50;
 		X2 = 50;
 
-		for (int i = 0; i < size; i++)
+		std::vector<double> X_array;
+
+		for (int i = 0; i < (*numberOfSteps); i++)
+		{
+			X_array.push_back(50 + i * h);
+		}
+
+		for (int i = 0; i < (*numberOfSteps); i++)
 		{
 			Y1 = (*reliability_req)[i];
 			Y2 = (*reliability_f)[i];
@@ -277,20 +284,19 @@ namespace Transportation {
 		//расчеты точки пересечения на графике
 		//метод наименьших квадратов
 
-		std::vector<double> X_array = { 50, 60, 70, 80, 90, 100 };
 		std::vector<double> xy;	//умножение x*y
 		std::vector<double> xx;	//возведение x^2
-		int n = size;		//кол-во точек
+		int n = (*numberOfSteps);		//кол-во точек
 
 		double sum_x = 0, sum_y = 0, sum_xy = 0, sum_xx = 0;
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < (*numberOfSteps); i++)
 		{
 			xy.push_back(X_array[i] * (*reliability_f)[i]);
 			xx.push_back(pow(X_array[i], 2));
 		}
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < (*numberOfSteps); i++)
 		{
 			sum_x += X_array[i];
 			sum_y += (*reliability_f)[i];
