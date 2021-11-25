@@ -11,7 +11,6 @@
 #include <algorithm>
 #include <libxl.h>
 
-//using namespace std;
 using namespace libxl;
 
 namespace Transportation {
@@ -176,7 +175,7 @@ namespace Transportation {
 			this->Controls->Add(this->button1);
 			this->Name = L"ResultForm";
 			this->SizeGripStyle = System::Windows::Forms::SizeGripStyle::Hide;
-			this->Text = L"MyForm";
+			this->Text = L"Решение транспортной задачи с нечеткими данными";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chart1))->EndInit();
 			this->ResumeLayout(false);
 
@@ -193,9 +192,7 @@ namespace Transportation {
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) { //кнопка результат
 		button1->Enabled = false;
 
-		//std::vector<double> reliability_f;													    //надежность функции цели
-		//std::vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };                  //надежность потребностей 
-		std::vector<double> min;															    //последняя матрица
+		std::vector<double> min;															    
 
 		double C_max = (*vecL)[0];
 		double C_min = (*vecL)[0];
@@ -233,8 +230,7 @@ namespace Transportation {
 
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) { //кнопка построить график
 		button2->Enabled = false;	//запрет на повторное нажатие клавиш
-		//std::vector<double> reliability_req = { 0, 0.2, 0.4, 0.6, 0.8, 0.9 };
-		//std::vector<double> reliability_f = { 1, 0.78, 0.57, 0.34, 0.11, 0 };// -----!!!эти данные считаю!!!!
+		
 		double a = 0, b = 100, h = 50/((*numberOfSteps) - 1), X1, Y1, X2, Y2;
 
 		//подписать оси
@@ -298,15 +294,10 @@ namespace Transportation {
 		k = ((*numberOfSteps) * sum_xy - sum_x * sum_y) / ((*numberOfSteps) * sum_xx - pow(sum_x, 2));
 		b1 = (sum_y - k * sum_x) / (*numberOfSteps);
 
-		//richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности функции цели: y=" + round(k * 100.0) / 100.0 + "x+" + round(b1 * 100.0) / 100.0 + "\n";
-
 		//расчет второго уравнения с координатами точек (50,0)(100,1)
 		double x1 = 50, x2 = 100, y1 = 0, y2 = 1, k2, b2;
 		k2 = (y2 - y1) / (x2 - x1);
 		b2 = (x2 * y1 - y2 * x1) / (x2 - x1);
-
-		//richTextBox1->Text = richTextBox1->Text + "Уравнение для графика надежности потребностей: y=" + round(k2 * 100.0) / 100.0 + "x+ (" + round(b2 * 100.0) / 100.0 + ")" + "\n";
-
 
 		//нахождение x,y
 		if ((k / k2) == (b1 / b2))
@@ -315,20 +306,18 @@ namespace Transportation {
 		}
 		else
 		{
-			richTextBox1->Text = richTextBox1->Text + "Линии пересекаются в точках:\n";
+			richTextBox1->Text = richTextBox1->Text + "Линии пересекаются в точке:\n";
 			int x = (b2 - b1) / (k - k2);
 			double y = (k * b1 - b2 * k2) / (k - k2);
 			richTextBox1->Text = richTextBox1->Text + "x=" + x + "\n";
 			richTextBox1->Text = richTextBox1->Text + "y=" + round(y * 100.0) / 100.0 + "\n";
 
-			double result = FzTransportation::calculateObjectiveFunctionValue((*filepath2read), x); // Кати Касько!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			double result = FzTransportation::calculateObjectiveFunctionValue((*filepath2read), x); 
 
-			richTextBox1->Text = richTextBox1->Text + "result=" + result + "\n";
+			richTextBox1->Text = richTextBox1->Text + "Результат=" + result + "\n";
 		}
 
 	}
-
-	
 
 	private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
 		button3->Enabled = false;
@@ -363,14 +352,12 @@ namespace Transportation {
 		book->release();
 
 	}
-	
 
 	private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();    //свернуть форму
 		Transportation::MainForm^ mForm = gcnew Transportation::MainForm();
 		mForm->Show();
 	}
-
 
 };
 }
