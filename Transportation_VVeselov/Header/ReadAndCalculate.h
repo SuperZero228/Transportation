@@ -21,4 +21,6 @@ namespace FzTransportation {
 	std::vector<double> readVectorBFromExcell(const wchar_t* finishedFilepath, int& amountB);
 
 	std::vector<std::vector<double>> readVectorCFromExcell(const wchar_t* finishedFilepath, int& amountA, int& amountB);
+
+	std::vector<std::pair<double, std::pair<int, int>>>  getVVOptimalPlan(std::string sourceFilepath, int x); //Костыль
 }

@@ -31,6 +31,18 @@ T Transportation<T>::getL()
 }
 
 template <typename T>
+std::vector<std::pair<T, std::pair<int, int>>> Transportation<T>::getBasis()
+{
+	return basisPerem_e;
+}
+
+template <typename T>
+std::vector<std::vector<T>> Transportation<T>::getC()
+{
+	return C;
+}
+
+template <typename T>
 void Transportation<T>::solve()
 {
 	if (sumA != sumB)
@@ -607,7 +619,7 @@ bool Transportation<T>::notInBasis(int i, int j)
 }
 
 template <typename T>
-void Transportation<T>::loopBuild() 
+void Transportation<T>::loopBuild()
 {
 	T tmpMaxMin;
 	std::pair<int, int> positionLoopBegin, positionFreeCell;
@@ -650,7 +662,7 @@ void Transportation<T>::loopBuild()
 	}
 	loopMap[basisPerem_e.back().second.first][basisPerem_e.back().second.second] = 5;	//магическое число для первой клетки в цикле - 5
 
-	int maxIter = C.size()*C[0].size();
+	int maxIter = C.size() * C[0].size();
 	path.clear();
 	pathHorizontal(positionLoopBegin, path, loopMap, maxIter);
 

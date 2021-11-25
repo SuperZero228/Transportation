@@ -113,6 +113,31 @@ std::vector<double> FzTransportation::getVectorBByX(int amountB, std::vector<dou
 	return vectorB;
 }
 
+std::vector<std::pair<double, std::pair<int, int>>> FzTransportation::getVVOptimalPlan(std::string sourceFilepath, int x) {
+	int amountA = 0;
+	int amountB = 0;
+	std::vector<double> A, B;
+	std::vector<std::vector<double>> C;
+	std::vector<std::pair<double, std::pair<int, int>>> basis;
+	double dx = x;
+
+	dx = dx / 100;
+
+	std::wstring wFilepath = FzTransportation::s2ws(sourceFilepath);
+	const wchar_t* finishedFilepath = wFilepath.c_str();
+
+
+	A = FzTransportation::readVectorAFromExcell(finishedFilepath, amountA);
+
+	B = FzTransportation::readVectorBFromExcell(finishedFilepath, amountB);
+
+	C = FzTransportation::readVectorCFromExcell(finishedFilepath, amountA, amountB);
+
+	B = FzTransportation::getVectorBByX(amountB, B, dx);
+	
+	return get_optimal_plan(A, B, C);;
+}
+
 std::wstring FzTransportation::s2ws(const std::string& s)
 {
 	int len;

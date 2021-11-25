@@ -28,3 +28,25 @@ std::vector<double> get_objective_function_values(int N, int amountB, std::vecto
 
 	 return objective_function_values;
 }
+
+std::vector<std::pair<double, std::pair<int, int>>> get_optimal_plan(std::vector<double> A, std::vector<double> B, std::vector<std::vector<double>> C) {//переделать функцию
+	Transportation<double> problem(A, B, C);
+	std::vector<std::pair<double, std::pair<int, int>>> basis;
+
+	basis = problem.getBasis();
+
+	/*std::cout << "Оптимальный план перевозок:" << std::endl;
+	for (int i = 0; i < C.size(); i++)
+	{
+		std::cout << "Из " << i + 1 << "-го пункта производства необходимо продукт направить в ";
+		for (int j = 0; j < basis.size(); j++)
+		{
+			if (basis[j].second.first == i && C[basis[j].second.first][basis[j].second.second] != 0)
+				std::cout << basis[j].second.second + 1 << "-й пункт потребления (" << basis[j].first << " единиц), ";
+		}
+		std::cout << std::endl;
+	}
+	*/
+
+	return basis;
+}

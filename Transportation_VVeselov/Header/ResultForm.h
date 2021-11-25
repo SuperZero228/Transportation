@@ -190,9 +190,7 @@ namespace Transportation {
 	}
 
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) { //кнопка результат
-		button1->Enabled = false;
-
-		std::vector<double> min;															    
+		button1->Enabled = false;														    
 
 		double C_max = (*vecL)[0];
 		double C_min = (*vecL)[0];
@@ -215,16 +213,6 @@ namespace Transportation {
 		{
 			richTextBox1->Text = richTextBox1->Text + "Шаг:" + i + " Результат:" + round((*reliability_f)[i] * 100.0) / 100.0 + "\n";
 		}
-
-		for (int i = 0; i < (*numberOfSteps); i++)
-		{
-			if ((*reliability_req)[i] < (*reliability_f)[i])
-				min.push_back((*reliability_req)[i]);
-			else
-				min.push_back((*reliability_f)[i]);
-		}
-	
-		auto max = max_element(min.begin(), min.end());
 
 	}
 
@@ -312,7 +300,8 @@ namespace Transportation {
 			richTextBox1->Text = richTextBox1->Text + "x=" + x + "\n";
 			richTextBox1->Text = richTextBox1->Text + "y=" + round(y * 100.0) / 100.0 + "\n";
 
-			double result = FzTransportation::calculateObjectiveFunctionValue((*filepath2read), x); 
+			double result = FzTransportation::calculateObjectiveFunctionValue((*filepath2read), x);
+			std::vector<std::pair<double, std::pair<int, int>>> resultBasis = FzTransportation::getVVOptimalPlan((*filepath2read), x);
 
 			richTextBox1->Text = richTextBox1->Text + "Результат=" + result + "\n";
 		}
