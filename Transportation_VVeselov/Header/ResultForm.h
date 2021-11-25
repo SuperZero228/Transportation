@@ -58,11 +58,14 @@ namespace Transportation {
 	private: System::Windows::Forms::RichTextBox^ richTextBox1;
 	private: System::Windows::Forms::Button^ button3;
 	private: System::Windows::Forms::Button^ button4;
+
+	private: std::vector<std::pair<double, std::pair<int, int>>>* resultBasis = new  std::vector<std::pair<double, std::pair<int, int>>>();
 	private: std::vector<double>* vecL = new std::vector<double>;
 	private: std::vector<double>* reliability_req = new std::vector<double>;                  //надежность потребностей 
 	private: std::vector<double>* reliability_f = new std::vector<double>;					//надежность функции цели
 	private: std::string* filepath2read = new std::string();
 	private: int* numberOfSteps = new int();
+	private: double* result = new double();
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
@@ -300,10 +303,15 @@ namespace Transportation {
 			richTextBox1->Text = richTextBox1->Text + "x=" + x + "\n";
 			richTextBox1->Text = richTextBox1->Text + "y=" + round(y * 100.0) / 100.0 + "\n";
 
-			double result = FzTransportation::calculateObjectiveFunctionValue((*filepath2read), x);
-			std::vector<std::pair<double, std::pair<int, int>>> resultBasis = FzTransportation::getVVOptimalPlan((*filepath2read), x);
+			(*result) = FzTransportation::calculateObjectiveFunctionValue((*filepath2read), x);
 
-			richTextBox1->Text = richTextBox1->Text + "Результат=" + result + "\n";
+			(*resultBasis) = FzTransportation::getVVOptimalPlan((*filepath2read), x);
+			for (int i = 0; i < (*resultBasis).size(); i++)
+			{
+				richTextBox1->Text = richTextBox1->Text + "X(" + (*resultBasis)[i].second.first + "," + (*resultBasis)[i].second.second + ")" + "=" + (*resultBasis)[i].first + "\n";
+			}
+
+			richTextBox1->Text = richTextBox1->Text + "Результат=" + (*result) + "\n";
 		}
 
 	}
@@ -334,6 +342,24 @@ namespace Transportation {
 						sheet->writeNum(row, (col + 1), a);
 
 					}
+				}
+			}
+			for (int row = sheet->firstRow(); row <= (*resultBasis).size(); row++)
+			{
+				for (int col = sheet->firstCol(); col <= sheet->firstCol(); col++)
+				{
+					double a = (*resultBasis)[row - 1].first;
+					sheet->writeNum(row, (col + 2), a);
+
+				}
+			}
+			for (int row = sheet->firstRow(); row <= 1; row++)
+			{
+				for (int col = sheet->firstCol(); col <= sheet->firstCol(); col++)
+				{
+					double a = (*result);
+					sheet->writeNum(row, (col + 3), a);
+
 				}
 			}
 			book->save(L".\\Resource\\result.xls");	
